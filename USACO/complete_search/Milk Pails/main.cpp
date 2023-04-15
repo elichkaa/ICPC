@@ -20,13 +20,6 @@ int main()
     int cur = 0, mx = 0;
     fin >> x >> y >> m;
     int size = m / x;
-    vector<int> f;
-    vector<int> s;
-    for (int i = 0; i < size; i++)
-    {
-        f.push_back(x);
-        s.push_back(y);
-    }
 
     for (int i = 0; i <= size; i++)
     {
