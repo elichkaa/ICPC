@@ -13,10 +13,8 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.precision(10);
-    ofstream fout("1.out");
-    ifstream fin("1.in");
-    int w, h;
-    fin >> w >> h;
-    fout << w * h - 1 << endl;
+    int64_t w, h;
+    cin >> w >> h;
+    cout << w * h - 1 << endl;
     return 0;
 }

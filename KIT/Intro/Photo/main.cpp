@@ -10,10 +10,10 @@ using ll = long long;
 
 struct comp
 {
-    bool operator()(const pair<double, double> &l, const pair<double, double> &r)
+    bool operator()(const pair<int, int> &l, const pair<int, int> &r) const
     {
-        double leftCos = l.second / l.first;
-        double rightCos = r.second / r.first;
+        double leftCos = l.second * r.first;
+        double rightCos = r.second * l.first;
         if (leftCos == rightCos)
         {
             return l.first < r.first;
@@ -24,19 +24,14 @@ struct comp
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.precision(10);
-    ofstream fout("1.out");
-    ifstream fin("1.in");
     string n;
-    double x, y;
-    map<pair<double, double>, string, comp> map;
-    while (fin >> n >> x >> y)
+    int x, y;
+    map<pair<int, int>, string, comp> map;
+    while (cin >> n >> x >> y)
     {
         map.insert(make_pair(make_pair(x, y), n));
     }
     for (auto const &s : map)
-        fout << s.second << endl;
+        cout << s.second << endl;
     return 0;
 }

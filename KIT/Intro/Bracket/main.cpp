@@ -7,77 +7,41 @@
 using namespace std;
 using Graph = vector<vector<int>>;
 using ll = long long;
-ofstream fout("1.out");
-ifstream fin("1.in");
-
-int checkBracket(string &s)
-{
-    stack<char> v;
-    int min = 0;
-    for (auto &a : s)
-    {
-        if (a == '(' || a == '{' || a == '[')
-        {
-            v.push(a);
-        }
-        else
-        {
-            if (v.empty())
-            {
-                min++;
-            }
-            else
-            {
-                if (v.top() == '{' && a == '}' || v.top() == '(' && a == ')' || v.top() == '[' && a == ']')
-                {
-                    v.pop();
-                }
-                else
-                {
-                    min++;
-                }
-            }
-        }
-    }
-    return min;
-}
 
 void operate(string &s, int num)
 {
     if (num == 1)
     {
-        string rev = s;
-        reverse(rev.begin(), rev.end());
-        if (rev == s && checkBracket(s) == 0)
+        if (s == "")
         {
-            fout << "yes" << endl;
+            cout << "yes" << endl;
         }
         else
         {
-            fout << "no" << endl;
+            cout << "no" << endl;
         }
     }
     else if (num == 2)
     {
-        fout << checkBracket(s) << endl;
+        cout << s.size() << endl;
     }
     else if (num == 3)
     {
         int pos;
-        fin >> pos;
+        cin >> pos;
         s.erase(s.begin() + pos - 1);
     }
     else if (num == 4)
     {
         int pos;
         string i;
-        fin >> pos >> i;
-        s.insert(pos, i);
+        cin >> pos >> i;
+        s.insert(pos - 1, i);
     }
     else if (num == 5)
     {
         int f, e;
-        fin >> f >> e;
+        cin >> f >> e;
         swap(s[f - 1], s[e - 1]);
     }
 }
@@ -88,17 +52,17 @@ int main()
     cin.tie(nullptr);
     cout.precision(10);
     int n;
-    fin >> n;
+    cin >> n;
     for (int i = 0; i < n; i++)
     {
-        int a, b;
-        fin >> a >> b;
+        int64_t a, b;
+        cin >> a >> b;
         string c;
-        fin >> c;
+        cin >> c;
         for (int j = 0; j < b; j++)
         {
             int d;
-            fin >> d;
+            cin >> d;
             operate(c, d);
         }
     }

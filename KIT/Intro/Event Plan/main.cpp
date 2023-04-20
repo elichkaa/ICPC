@@ -8,28 +8,25 @@ using namespace std;
 using Graph = vector<vector<int>>;
 using ll = long long;
 
-
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.precision(10);
-    ofstream fout("1.out");
-    ifstream fin("1.in");
-    int n, b, h, w;
-    fin >> n >> b >> h >> w;
-    int ans = INT_MAX;
+    int64_t n, b, h, w;
+    cin >> n >> b >> h >> w;
+    int64_t ans = INT64_MAX;
     for (int i = 0; i < h; i++)
     {
-        int p;
-        fin >> p;
+        int64_t p;
+        cin >> p;
         for (int j = 0; j < w; j++)
         {
-            int beds;
-            fin >> beds;
+            int64_t beds;
+            cin >> beds;
             if (beds >= n)
             {
-                int calc = beds * p;
+                int64_t calc = n * p;
                 if (calc <= b)
                 {
                     ans = min(ans, calc);
@@ -37,12 +34,12 @@ int main()
             }
         }
     }
-    if (ans == INT_MAX)
+    if (ans == INT64_MAX)
     {
-        fout << "stay home" << endl;
+        cout << "stay home" << endl;
         return 0;
     }
-    
-    fout << ans << endl;
+
+    cout << ans << endl;
     return 0;
 }
