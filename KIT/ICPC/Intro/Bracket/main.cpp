@@ -42,7 +42,9 @@ void operate(string &s, int num)
     {
         int f, e;
         cin >> f >> e;
-        swap(s[f - 1], s[e - 1]);
+        char t = s[f - 1];
+        s[f - 1] = s[e - 1];
+        s[e - 1] = t;
     }
 }
 
