@@ -2,7 +2,6 @@
 
 using namespace std;
 
-// efficient algorithm for sorting a small number of elements
 // complexity n^2
 int main()
 {
@@ -15,21 +14,24 @@ int main()
     {
         cin >> arr[i];
     }
-    for (int i = 1; i < n; i++)
+    int min = 0;
+    for (int i = 0; i < n - 1; i++)
     {
-        int key = arr[i];
-        int prev = i - 1;
-        while (prev >= 0 && arr[prev] > key)
+        min = i;
+        for (int j = i + 1; j < n; j++)
         {
-            arr[prev + 1] = arr[prev];
-            prev--;
+            if (arr[j] < arr[min])
+            {
+                min = j;
+            }
         }
-        arr[prev + 1] = key;
+        int temp = arr[min];
+        arr[min] = arr[i];
+        arr[i] = temp;
     }
     for (int i = 0; i < n; i++)
     {
         cout << arr[i] << " ";
     }
-
     return 0;
 }
