@@ -2,44 +2,33 @@
 
 using namespace std;
 
-int apply(int a, int b, char op)
+bool backtrack(vector<int32_t> &numbers, int32_t idx, int32_t cur)
 {
-    switch (op)
+    if (idx == 5)
     {
-    case '+':
-        return a + b;
-    case '-':
-        return a - b;
-    case '*':
-        return a * b;
+        return cur == 23;
     }
-    return 0;
+    return backtrack(numbers, idx + 1, cur * numbers[idx]) || backtrack(numbers, idx + 1, cur + numbers[idx]) || backtrack(numbers, idx + 1, cur - numbers[idx]);
 }
 
-bool solve(vector<int> &numbers, int result, int mask)
+void solve(vector<int32_t> v)
 {
-    if (mask == (1 << 5) - 1 || result > 173 || result < -77)
+    sort(v.begin(), v.end());
+    do
     {
-        return result == 23;
-    }
-    bool possible = false;
-    for (int i = 0; i < numbers.size(); i++)
-    {
-        int num = numbers[i];
-        if ((mask & (1 << i)) == 0)
+        if (backtrack(v, 1, v[0]))
         {
-            possible |= solve(numbers, apply(result, num, '+'), mask | (1 << i));
-            possible |= solve(numbers, apply(result, num, '-'), mask | (1 << i));
-            possible |= solve(numbers, apply(result, num, '*'), mask | (1 << i));
+            cout << "Possible" << endl;
+            return;
         }
-    }
-    return possible;
+    } while (next_permutation(v.begin(), v.end()));
+    cout << "Impossible" << endl;
 }
 
 int main()
 {
+    vector<int32_t> v = vector<int32_t>();
     int a, b, c, d, e;
-    vector<int> v;
     while (cin >> a >> b >> c >> d >> e)
     {
         if (a == 0 && b == 0 && c == 0 && d == 0 && e == 0)
@@ -51,15 +40,8 @@ int main()
         v.push_back(c);
         v.push_back(d);
         v.push_back(e);
-        sort(v.begin(), v.end());
-        bool possible = false;
-        do
-        {
-            possible |= solve(v, v[0], 1);
-        } while (next_permutation(v.begin(), v.end()) && !possible);
-        cout << (possible ? "Possible" : "Impossible") << endl;
+        solve(v);
         v.clear();
     }
-
     return 0;
 }

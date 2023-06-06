@@ -1,0 +1,119 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct TrieNode
+{
+    bool endOfIp;
+    unordered_map<char, TrieNode *> children;
+
+    TrieNode() : endOfIp(false) {}
+};
+
+void insertIP(TrieNode *root, const string &ip)
+{
+    TrieNode *curr = root;
+    for (char c : ip)
+    {
+        if (curr->children.find(c) == curr->children.end())
+        {
+            curr->children[c] = new TrieNode();
+        }
+        curr = curr->children[c];
+    }
+    curr->endOfIp = true;
+}
+
+bool searchPrefix(TrieNode *root, const string &id)
+{
+    TrieNode *curr = root;
+    for (char c : id)
+    {
+        if (curr->children.find(c) == curr->children.end())
+        {
+            return false;
+        }
+        curr = curr->children[c];
+        if (curr->endOfIp)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    cin.ignore();
+    TrieNode *root = new TrieNode();
+    for (int i = 0; i < n; i++)
+    {
+        string ip;
+        getline(cin, ip);
+        if (ip.find('*') != string::npos)
+        {
+            insertIP(root, ip.substr(0, ip.length() - 1));
+        }
+        else
+        {
+            insertIP(root, ip);
+        }
+    }
+    int m;
+    cin >> m;
+    cin.ignore();
+    vector<string> ips(m);
+    for (int i = 0; i < m; i++)
+    {
+        getline(cin, ips[i]);
+    }
+
+    for (const string &id : ips)
+    {
+        if (searchPrefix(root, id))
+        {
+            cout << "Yes" << endl;
+        }
+        else
+        {
+            cout << "No" << endl;
+        }
+    }
+
+    return 0;
+}
+/*
+vector<int64_t> zFunction(const string &s)
+{
+    int64_t n = s.length();
+    vector<int64_t> z(n);
+
+    for (int64_t i = 1, l = 0, r = 0; i < n; ++i)
+    {
+        if (i <= r)
+        {
+            z[i] = min(r - i + 1, z[i - l]);
+        }
+        while (i + z[i] < n && s[z[i]] == s[i + z[i]])
+        {
+            ++z[i];
+        }
+        if (i + z[i] - 1 > r)
+        {
+            l = i;
+            r = i + z[i] - 1;
+        }
+    }
+    return z;
+}*/
+
+
+2
+10.0.*.*
+172.16.*.0
+3
+10.0.0.1
+10.0.1.1
+172.16.0.1

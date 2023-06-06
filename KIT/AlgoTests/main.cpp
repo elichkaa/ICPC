@@ -1,36 +1,99 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 using namespace std;
-int64_t coins[10], best;
 
-int64_t solve(int64_t sum)
+const int constNumbers[10] = {6, 4, 25, 8, 9, 14, 10, 19, 8, 2};
+
+int numbers[10] = {6, 4, 25, 8, 9, 14, 10, 19, 8, 2};
+
+void resetNumbers()
 {
-    if (sum < 0)
+    for (int i = 0; i < 10; i++)
     {
-        return INT32_MAX;
+        numbers[i] = constNumbers[i];
     }
-    if (sum == 0)
+}
+
+void hydrogen()
+{
+    int jm, m;
+    for (int i = 0; i < 10; i++)
     {
-        return 0;
+        jm = i;
+        m = numbers[jm];
+        for (int j = i + 1; j < 10; j++)
+        {
+            if (numbers[j] > m)
+            {
+                jm = j;
+                m = numbers[jm];
+            }
+        }
+        for (int j = jm - 1; j >= 0; j--)
+        {
+            numbers[j + 1] = numbers[j];
+        }
+        numbers[0] = m;
     }
-    best = INT32_MAX;
-    for (int i = 0; i < 3; i++)
+}
+
+int helium(int k)
+{
+    int c = 0;
+    for (int i = 0; i < 10; i++)
     {
-        best = min(best, solve(sum - coins[i]) + 1);
+        for (int j = i + 1; j < 10; j++)
+        {
+            if (numbers[i] * numbers[j] == k)
+            {
+                c++;
+            }
+        }
     }
-    return best;
+    return c;
+}
+
+int lithium()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        if (numbers[i] != 0)
+        {
+            int a = numbers[i];
+            numbers[i] = 0;
+            int b = lithium();
+            if (a < b && i < 9)
+            {
+                cout << b << " ";
+                return b;
+            }
+            cout << a << " ";
+            return a;
+        }
+    }
+    return 0;
 }
 
 int main()
 {
-    int c;
-    cin >> c;
-    for (int i = 0; i < c; i++)
+    hydrogen();
+    for (int number : numbers)
     {
-        cin >> coins[i];
+        cout << number << ' ';
     }
-    cout << solve(0) << endl;
-    cout << solve(3) << endl;
-    cout << solve(10) << endl;
+    resetNumbers();
+    cout << endl
+         << helium(42) << endl;
+    for (int number : numbers)
+    {
+        cout << number << ' ';
+    }
+    resetNumbers();
+    cout << endl
+         << lithium() << endl;
+    for (int number : numbers)
+    {
+        cout << number << ' ';
+    }
     return 0;
 }
