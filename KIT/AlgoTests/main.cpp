@@ -1,99 +1,89 @@
-#include <iostream>
+// C++ program for building Heap from Array
+
+#include <bits/stdc++.h>
 
 using namespace std;
 
-const int constNumbers[10] = {6, 4, 25, 8, 9, 14, 10, 19, 8, 2};
-
-int numbers[10] = {6, 4, 25, 8, 9, 14, 10, 19, 8, 2};
-
-void resetNumbers()
+// To heapify a subtree rooted with node i which is
+// an index in arr[]. N is size of heap
+void heapify(int arr[], int N, int i)
 {
-    for (int i = 0; i < 10; i++)
+    int largest = i;   // Initialize largest as root
+    int l = 2 * i + 1; // left = 2*i + 1
+    int r = 2 * i + 2; // right = 2*i + 2
+
+    // If left child is larger than root
+    if (l < N && arr[l] > arr[largest])
+        largest = l;
+
+    // If right child is larger than largest so far
+    if (r < N && arr[r] > arr[largest])
+        largest = r;
+
+    // If largest is not root
+    if (largest != i)
     {
-        numbers[i] = constNumbers[i];
+        swap(arr[i], arr[largest]);
+
+        // Recursively heapify the affected sub-tree
+        heapify(arr, N, largest);
     }
 }
 
-void hydrogen()
+// Function to build a Max-Heap from the given array
+void buildHeap(int arr[], int N)
 {
-    int jm, m;
-    for (int i = 0; i < 10; i++)
+    // Index of last non-leaf node
+    int startIdx = (N / 2) - 1;
+
+    // Perform reverse level order traversal
+    // from last non-leaf node and heapify
+    // each node
+    for (int i = startIdx; i >= 0; i--)
     {
-        jm = i;
-        m = numbers[jm];
-        for (int j = i + 1; j < 10; j++)
-        {
-            if (numbers[j] > m)
-            {
-                jm = j;
-                m = numbers[jm];
-            }
-        }
-        for (int j = jm - 1; j >= 0; j--)
-        {
-            numbers[j + 1] = numbers[j];
-        }
-        numbers[0] = m;
+        heapify(arr, N, i);
     }
 }
 
-int helium(int k)
+// A utility function to print the array
+// representation of Heap
+void printHeap(int arr[], int N)
 {
-    int c = 0;
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = i + 1; j < 10; j++)
-        {
-            if (numbers[i] * numbers[j] == k)
-            {
-                c++;
-            }
-        }
-    }
-    return c;
+    cout << "Array representation of Heap is:\n";
+
+    for (int i = 0; i < N; ++i)
+        cout << arr[i] << " ";
+    cout << "\n";
 }
 
-int lithium()
-{
-    for (int i = 0; i < 10; i++)
-    {
-        if (numbers[i] != 0)
-        {
-            int a = numbers[i];
-            numbers[i] = 0;
-            int b = lithium();
-            if (a < b && i < 9)
-            {
-                cout << b << " ";
-                return b;
-            }
-            cout << a << " ";
-            return a;
-        }
-    }
-    return 0;
-}
-
+// Driver Code
 int main()
 {
-    hydrogen();
-    for (int number : numbers)
-    {
-        cout << number << ' ';
-    }
-    resetNumbers();
-    cout << endl
-         << helium(42) << endl;
-    for (int number : numbers)
-    {
-        cout << number << ' ';
-    }
-    resetNumbers();
-    cout << endl
-         << lithium() << endl;
-    for (int number : numbers)
-    {
-        cout << number << ' ';
-    }
+    // Binary Tree Representation
+    // of input array
+    //             1
+    //           /    \
+    //         3        5
+    //       /  \     /  \
+    //     4      6  13  10
+    //    / \    / \
+    //   9   8  15 17
+    int arr[] = {15, 22, 29, 14, 38, 11, 43, 49, 37};
+
+    int N = sizeof(arr) / sizeof(arr[0]);
+
+    // Function call
+    buildHeap(arr, N);
+    printHeap(arr, N);
+
+    // Final Heap:
+    //              17
+    //            /    \
+    //          15      13
+    //         /  \     / \
+    //        9     6  5   10
+    //       / \   / \
+    //      4   8 3   1
+
     return 0;
 }
